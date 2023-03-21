@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 namespace notes.Models
 {
     /// <summary>
-    /// List item, representing one note
+    /// Note at service level
     /// </summary>
-    public class NoteItem
+    public class Note
     {
         /// <summary>
-        /// Note name
+        /// Note Id
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Note Name
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Note Content
+        /// </summary>
+        public string Content { get; set; }
 
         /// <summary>
         /// Creation time
         /// </summary>
         public DateTime Timestamp { get; set; }
-
-        /// <summary>
-        /// Note id
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// Index in list
-        /// </summary>
-        public int Index { get; set; }
     }
 }

@@ -1,7 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using notes.Models;
+using notes.Services.Abstract;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Text;
 
@@ -9,22 +13,27 @@ namespace notes.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private IList<NoteItem> _noteItems = new List<NoteItem>();
+        private readonly INotesService _notesService;
 
         private string _noteText;
+
+        private NoteItem _selectedNote;
 
         /// <summary>
         /// Add new note
         /// </summary>
         public ReactiveCommand<Unit, Unit> AddNewNoteCommand { get; }
 
-        public IList<NoteItem> NoteItems
+        public ObservableCollection<NoteItem> NoteItems { get; }
+
+        public NoteItem SelectedNote
         {
-            get => _noteItems;
+            get => _selectedNote;
             set
             {
-                _noteItems = value;
-                this.RaiseAndSetIfChanged(ref _noteItems, value);
+                _selectedNote = value;
+                this.RaiseAndSetIfChanged(ref _selectedNote, value);
+                LoadNoteBySelectedNote(value);
             }
         }
 
@@ -40,11 +49,11 @@ namespace notes.ViewModels
 
         public MainWindowViewModel()
         {
+            _notesService = Program.Di.GetService<INotesService>();
+
             AddNewNoteCommand = ReactiveCommand.Create(OnAddNewNoteCommand);
 
-            NoteItems = new List<NoteItem>();
-            NoteItems.Add(new NoteItem { Name = "Note 1", Timestamp = DateTime.Now });
-            NoteItems.Add(new NoteItem { Name = "Note 2", Timestamp = DateTime.Now });
+            NoteItems = new ObservableCollection<NoteItem>();
         }
 
         /// <summary>
@@ -52,7 +61,22 @@ namespace notes.ViewModels
         /// </summary>
         private void OnAddNewNoteCommand()
         {
+            var note = _notesService.Add("Title will be here", NoteText);
 
+            NoteItems.Add(new NoteItem
+            {
+                Index = NoteItems.Count,
+                Id = note.Id,
+                Name = note.Name,
+                Timestamp = note.Timestamp
+            });
+        }
+
+        private void LoadNoteBySelectedNote(NoteItem selectedNoteItem)
+        {
+            var note = _notesService.Get(selectedNoteItem.Id);
+
+            NoteText = note.Content;
         }
     }
 }
