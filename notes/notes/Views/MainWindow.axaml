@@ -1,0 +1,92 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:notes.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="notes.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="notes">
+
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Common.axaml" />
+	</Window.Styles>
+
+	<Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+		<Grid
+			ColumnDefinitions="*"
+			RowDefinitions="Auto, *">
+
+			<!-- Here will be notes list -->
+			<Border
+				Grid.Column="0"
+				Grid.Row="0"
+				Classes="VisibleBorders">
+
+				<StackPanel
+					Orientation="Vertical">
+
+					<!-- Add new note -->
+					<Button
+                            Content="Add new"
+                            Command="{ Binding AddNewNoteCommand }"/>
+
+					<!-- Notes list -->
+					<ListBox
+							Height="200"
+							Items="{ Binding NoteItems }"
+							SelectedItem="{ Binding SelectedNote }">
+						
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<Border
+										Classes="VisibleBorders">
+
+										<DockPanel
+											HorizontalAlignment="Stretch">
+
+											<Grid
+												HorizontalAlignment="Stretch"
+												ColumnDefinitions="*, Auto"
+												RowDefinitions="Auto">
+
+												<TextBlock
+													Grid.Column="0"
+													Grid.Row="0"
+													Text="{ Binding Name }"/>
+												
+												<TextBlock
+													HorizontalAlignment="Right"
+													Grid.Column="1"
+													Grid.Row="0"
+													Text="{ Binding Timestamp }"/>
+											</Grid>
+										</DockPanel>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						
+					</ListBox>
+					
+				</StackPanel>
+				
+			</Border>
+
+			<!-- Here will be note list -->
+			<Border
+				Grid.Column="0"
+				Grid.Row="1"
+				Classes="VisibleBorders">
+
+				<TextBox
+					AcceptsReturn="True"
+					Text="{Binding NoteText}" />
+
+			</Border>
+
+		</Grid>
+
+</Window>
