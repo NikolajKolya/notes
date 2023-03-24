@@ -31,7 +31,6 @@ namespace notes.ViewModels
             get => _selectedNote;
             set
             {
-                _selectedNote = value;
                 this.RaiseAndSetIfChanged(ref _selectedNote, value);
                 LoadNoteBySelectedNote(value);
             }
@@ -42,7 +41,6 @@ namespace notes.ViewModels
             get => _noteText;
             set
             {
-                _noteText = value;
                 this.RaiseAndSetIfChanged(ref _noteText, value);
             }
         }

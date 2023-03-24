@@ -83,7 +83,7 @@
 
 				<TextBox
 					AcceptsReturn="True"
-					Text="{Binding NoteText}" />
+					Text="{Binding NoteText }" />
 
 			</Border>
 
