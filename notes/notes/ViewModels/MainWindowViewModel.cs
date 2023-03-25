@@ -17,6 +17,8 @@ namespace notes.ViewModels
 
         private string _noteText;
 
+        private string _noteTitle;
+
         private NoteItem _selectedNote;
 
         /// <summary>
@@ -33,6 +35,15 @@ namespace notes.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref _selectedNote, value);
                 LoadNoteBySelectedNote(value);
+            }
+        }
+
+        public string NoteTitle
+        {
+            get => _noteTitle;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _noteTitle, value);
             }
         }
 
@@ -59,7 +70,7 @@ namespace notes.ViewModels
         /// </summary>
         private void OnAddNewNoteCommand()
         {
-            var note = _notesService.Add("Title will be here", NoteText);
+            var note = _notesService.Add(NoteTitle, NoteText);
 
             NoteItems.Add(new NoteItem
             {
@@ -74,6 +85,7 @@ namespace notes.ViewModels
         {
             var note = _notesService.Get(selectedNoteItem.Id);
 
+            NoteTitle = note.Name;
             NoteText = note.Content;
         }
     }

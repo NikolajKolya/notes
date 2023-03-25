@@ -75,16 +75,36 @@
 				
 			</Border>
 
-			<!-- Here will be note list -->
+			<!-- Note -->
 			<Border
 				Grid.Column="0"
 				Grid.Row="1"
 				Classes="VisibleBorders">
 
-				<TextBox
-					AcceptsReturn="True"
-					Text="{Binding NoteText }" />
+				<Grid
+					ColumnDefinitions="Auto, *"
+					RowDefinitions="Auto, *">
 
+					<!-- Title -->
+					<Label
+						Grid.Column="0"
+						Grid.Row="0"
+						Content="Title: "/>
+
+					<TextBox
+						Grid.Column="1"
+						Grid.Row="0"
+						Text="{ Binding NoteTitle }"/>
+
+					<!-- Note -->
+					<TextBox
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Grid.Row="1"
+						AcceptsReturn="True"
+						Text="{ Binding NoteText }" />
+
+				</Grid>
 			</Border>
 
 		</Grid>
