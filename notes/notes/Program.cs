@@ -4,6 +4,8 @@ using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
 using notes.DAO.Abstract;
 using notes.DAO.Implementations;
+using notes.Mappers.Abstract;
+using notes.Mappers.Implementations;
 using notes.Services.Abstract;
 using notes.Services.Implementations;
 using System;
@@ -45,6 +47,7 @@ namespace notes
 
             services.AddSingleton<INotesService, NotesService>();
             services.AddSingleton<INotesDao, NotesDao>();
+            services.AddSingleton<INotesMapper, NotesMapper>();
 
             return services;
         }

@@ -25,6 +25,19 @@ namespace notes.DAO.Implementations
             _mainDbContext.SaveChanges();
         }
 
+        public void DeleteNoteById(Guid id)
+        {
+            _mainDbContext.Remove(GetNoteById(id));
+            _mainDbContext.SaveChanges();
+        }
+
+        public IReadOnlyCollection<Note> GetAllNotes()
+        {
+            return _mainDbContext
+                .Notes
+                .ToList();
+        }
+
         public Note GetNoteById(Guid id)
         {
             return _mainDbContext

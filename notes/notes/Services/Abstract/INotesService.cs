@@ -1,5 +1,6 @@
 ﻿using notes.Models;
 using System;
+using System.Collections.Generic;
 
 namespace notes.Services.Abstract
 {
@@ -17,5 +18,15 @@ namespace notes.Services.Abstract
         /// Get note by Id
         /// </summary>
         Note Get(Guid noteId);
+
+        /// <summary>
+        /// Get all notes
+        /// </summary>
+        IReadOnlyCollection<Note> GetAllNotes();
+
+        /// <summary>
+        /// Delete note by Id
+        /// </summary>
+        void Delete(Guid id);
     }
 }

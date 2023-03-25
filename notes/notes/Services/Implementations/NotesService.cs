@@ -1,4 +1,5 @@
 ﻿using notes.DAO.Abstract;
+using notes.Mappers.Abstract;
 using notes.Models;
 using notes.Services.Abstract;
 using System;
@@ -12,10 +13,13 @@ namespace notes.Services.Implementations
     public class NotesService : INotesService
     {
         private readonly INotesDao _notesDao;
+        private readonly INotesMapper _notesMapper;
 
-        public NotesService(INotesDao notesDao)
+        public NotesService(INotesDao notesDao,
+            INotesMapper notesMapper)
         {
             _notesDao = notesDao;
+            _notesMapper = notesMapper;
         }
 
         public Note Add(string name, string content)
@@ -36,13 +40,19 @@ namespace notes.Services.Implementations
         {
             var dbNote = _notesDao.GetNoteById(noteId);
 
-            return new Note()
-            {
-                Id = dbNote.Id,
-                Name = dbNote.Name,
-                Content = dbNote.Content,
-                Timestamp = DateTime.Now
-            };
+            return _notesMapper.Map(dbNote);
+        }
+
+        public IReadOnlyCollection<Note> GetAllNotes()
+        {
+            var dbNotes = _notesDao.GetAllNotes();
+
+            return _notesMapper.Map(dbNotes);
+        }
+
+        public void Delete(Guid id)
+        {
+            _notesDao.DeleteNoteById(id);
         }
     }
 }

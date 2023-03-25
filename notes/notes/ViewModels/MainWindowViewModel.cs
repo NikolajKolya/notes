@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using notes.DAO.Models;
 using notes.Models;
 using notes.Services.Abstract;
 using ReactiveUI;
@@ -21,12 +22,27 @@ namespace notes.ViewModels
 
         private NoteItem _selectedNote;
 
+        private IList<NoteItem> _noteItems = new List<NoteItem>();
+
         /// <summary>
         /// Add new note
         /// </summary>
         public ReactiveCommand<Unit, Unit> AddNewNoteCommand { get; }
 
-        public ObservableCollection<NoteItem> NoteItems { get; }
+        /// <summary>
+        /// Delete selected note
+        /// </summary>
+        public ReactiveCommand<Unit, Unit> DeleteNoteCommand { get; }
+
+        public IList<NoteItem> NoteItems
+        {
+            get => _noteItems;
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _noteItems, value);
+            }
+        }
 
         public NoteItem SelectedNote
         {
@@ -61,8 +77,9 @@ namespace notes.ViewModels
             _notesService = Program.Di.GetService<INotesService>();
 
             AddNewNoteCommand = ReactiveCommand.Create(OnAddNewNoteCommand);
+            DeleteNoteCommand = ReactiveCommand.Create(OnDeleteNewNoteCommand);
 
-            NoteItems = new ObservableCollection<NoteItem>();
+            ReloadNotesList();
         }
 
         /// <summary>
@@ -70,23 +87,55 @@ namespace notes.ViewModels
         /// </summary>
         private void OnAddNewNoteCommand()
         {
-            var note = _notesService.Add(NoteTitle, NoteText);
+            _notesService.Add(NoteTitle, NoteText);
 
-            NoteItems.Add(new NoteItem
+            ReloadNotesList();
+        }
+
+        /// <summary>
+        /// Delete note
+        /// </summary>
+        private void OnDeleteNewNoteCommand()
+        {
+            if (SelectedNote == null)
             {
-                Index = NoteItems.Count,
-                Id = note.Id,
-                Name = note.Name,
-                Timestamp = note.Timestamp
-            });
+                return;
+            }
+
+            _notesService.Delete(SelectedNote.Id);
+
+            ReloadNotesList();
         }
 
         private void LoadNoteBySelectedNote(NoteItem selectedNoteItem)
         {
+            if (selectedNoteItem == null)
+            {
+                return;
+            }
+
             var note = _notesService.Get(selectedNoteItem.Id);
 
             NoteTitle = note.Name;
             NoteText = note.Content;
+        }
+
+        private void ReloadNotesList()
+        {
+            NoteItems = new List<NoteItem>();
+
+            foreach (var dbNote in _notesService.GetAllNotes())
+            {
+                NoteItems.Add(new NoteItem
+                {
+                    Index = NoteItems.Count,
+                    Id = dbNote.Id,
+                    Name = dbNote.Name,
+                    Timestamp = dbNote.Timestamp
+                });
+            }
+
+            NoteItems = new List<NoteItem>(NoteItems);
         }
     }
 }
