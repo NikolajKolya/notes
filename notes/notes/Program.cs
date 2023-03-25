@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
+using notes.DAO.Abstract;
+using notes.DAO.Implementations;
 using notes.Services.Abstract;
 using notes.Services.Implementations;
 using System;
@@ -42,6 +44,7 @@ namespace notes
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<INotesService, NotesService>();
+            services.AddSingleton<INotesDao, NotesDao>();
 
             return services;
         }

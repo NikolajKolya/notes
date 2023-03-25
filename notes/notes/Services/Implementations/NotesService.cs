@@ -1,4 +1,5 @@
-﻿using notes.Models;
+﻿using notes.DAO.Abstract;
+using notes.Models;
 using notes.Services.Abstract;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,38 @@ namespace notes.Services.Implementations
 {
     public class NotesService : INotesService
     {
-        private List<Note> _notes= new List<Note>();
+        private readonly INotesDao _notesDao;
+
+        public NotesService(INotesDao notesDao)
+        {
+            _notesDao = notesDao;
+        }
 
         public Note Add(string name, string content)
         {
-            var note = new Note()
+            var dbNote = new DAO.Models.Note()
             {
-                Id = Guid.NewGuid(),
                 Name = name,
                 Content = content,
                 Timestamp= DateTime.Now
             };
 
-            _notes.Add(note);
+            _notesDao.AddNote(dbNote);
 
-            return note;
+            return Get(dbNote.Id);
         }
 
         public Note Get(Guid noteId)
         {
-            return _notes
-                .SingleOrDefault(n => n.Id == noteId);
+            var dbNote = _notesDao.GetNoteById(noteId);
+
+            return new Note()
+            {
+                Id = dbNote.Id,
+                Name = dbNote.Name,
+                Content = dbNote.Content,
+                Timestamp = DateTime.Now
+            };
         }
     }
 }
