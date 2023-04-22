@@ -1,4 +1,5 @@
 ﻿using notes.Models;
+using notes.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace notes.Services.Abstract
         /// <summary>
         /// Add note
         /// </summary>
-        Note Add(string name, string content);
+        Note Add(string name, string content, NotePriorityEnum priority);
 
         /// <summary>
         /// Get note by Id

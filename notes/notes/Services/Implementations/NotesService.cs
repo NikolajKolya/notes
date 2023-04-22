@@ -1,6 +1,7 @@
 ﻿using notes.DAO.Abstract;
 using notes.Mappers.Abstract;
 using notes.Models;
+using notes.Models.Enums;
 using notes.Services.Abstract;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,14 @@ namespace notes.Services.Implementations
             _notesMapper = notesMapper;
         }
 
-        public Note Add(string name, string content)
+        public Note Add(string name, string content, NotePriorityEnum priority)
         {
             var dbNote = new DAO.Models.Note()
             {
                 Name = name,
                 Content = content,
-                Timestamp= DateTime.Now
+                Timestamp= DateTime.Now,
+                Priority = priority
             };
 
             _notesDao.AddNote(dbNote);

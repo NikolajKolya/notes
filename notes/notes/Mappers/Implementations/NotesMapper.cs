@@ -31,7 +31,8 @@ namespace notes.Mappers.Implementations
                 Id = note.Id,
                 Name = note.Name,
                 Content = note.Content,
-                Timestamp = note.Timestamp
+                Timestamp = note.Timestamp,
+                Priority = note.Priority
             };
         }
 
@@ -47,7 +48,8 @@ namespace notes.Mappers.Implementations
                 Id = note.Id,
                 Name = note.Name,
                 Content = note.Content,
-                Timestamp = note.Timestamp
+                Timestamp = note.Timestamp,
+                Priority = note.Priority
             };
         }
 

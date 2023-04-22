@@ -22,6 +22,11 @@ namespace notes.Models
         public DateTime Timestamp { get; set; }
 
         /// <summary>
+        /// Note priority
+        /// </summary>
+        public string PriorityText { get; set; }
+
+        /// <summary>
         /// Note id
         /// </summary>
         public Guid Id { get; set; }

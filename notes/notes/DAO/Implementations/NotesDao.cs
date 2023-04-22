@@ -52,6 +52,7 @@ namespace notes.DAO.Implementations
             existingNote.Name = newNote.Name;
             existingNote.Content = newNote.Content;
             existingNote.Timestamp = newNote.Timestamp;
+            existingNote.Priority = newNote.Priority;
 
             _mainDbContext.SaveChanges();
         }

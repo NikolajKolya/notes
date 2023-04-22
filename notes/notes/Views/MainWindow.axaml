@@ -50,17 +50,24 @@
 
 											<Grid
 												HorizontalAlignment="Stretch"
-												ColumnDefinitions="*, Auto"
+												ColumnDefinitions="*, Auto, Auto"
 												RowDefinitions="Auto">
 
 												<TextBlock
 													Grid.Column="0"
 													Grid.Row="0"
 													Text="{ Binding Name }"/>
-												
+
 												<TextBlock
 													HorizontalAlignment="Right"
 													Grid.Column="1"
+													Grid.Row="0"
+													Margin="0 0 10 0"
+													Text="{ Binding PriorityText }"/>
+
+												<TextBlock
+													HorizontalAlignment="Right"
+													Grid.Column="2"
 													Grid.Row="0"
 													Text="{ Binding Timestamp }"/>
 											</Grid>
@@ -112,14 +119,12 @@
 						Grid.Column="0"
 						Grid.ColumnSpan="1"
 						Grid.Row="2"
-						Background = "Green"
 						Orientation="Horizontal">
 						<Grid
 							RowDefinitions="*"
 							ColumnDefinitions="*, *, *">
 								<StackPanel
 									Orientation="Horizontal"
-									Background = "Blue"
 									Grid.Row = "0"
 									Grid.Column = "0">
 									<Button
@@ -144,7 +149,6 @@
 								<StackPanel
 									Orientation="Horizontal"
 									HorizontalAlignment="Right"
-									Background = "Red"
 									Grid.Row = "0"
 									Grid.Column = "2">
 									<Button

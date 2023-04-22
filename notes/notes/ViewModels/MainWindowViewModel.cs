@@ -12,6 +12,7 @@ using System.Reactive;
 using System.Text;
 using notes.Views;
 using Note = notes.Models.Note;
+using notes.Models.Enums;
 
 namespace notes.ViewModels
 {
@@ -133,7 +134,8 @@ namespace notes.ViewModels
         /// </summary>
         private void OnAddNewNoteCommand()
         {
-            _notesService.Add(NoteTitle, NoteText);
+            _notesService.Add(NoteTitle, NoteText, (NotePriorityEnum)SelectedPriorityIndex); // Тот же комментарий про совпадение
+            // индекса и ID в энаме
 
             ReloadNotesList();
         }
@@ -165,7 +167,8 @@ namespace notes.ViewModels
                 Id = SelectedNote.Id,
                 Name = NoteTitle,
                 Content = NoteText,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now,
+                Priority = (NotePriorityEnum)SelectedPriorityIndex
             };
 
             _notesService.Update(updatedNote);
@@ -184,6 +187,8 @@ namespace notes.ViewModels
 
             NoteTitle = note.Name;
             NoteText = note.Content;
+            SelectedPriorityIndex = (int)note.Priority; // У нас так сложилось, что индекс приоритета в списке
+            // совпадает с номером приоритета в enum'. Если-бы не совпадал - тут пришлось-бы их мапить
         }
 
         private void ReloadNotesList()
@@ -192,12 +197,30 @@ namespace notes.ViewModels
 
             foreach (var dbNote in _notesService.GetAllNotes())
             {
+                string priorityText = "";
+
+                switch(dbNote.Priority)
+                {
+                    case Models.Enums.NotePriorityEnum.Low:
+                        priorityText = "Низкий";
+                        break;
+
+                    case Models.Enums.NotePriorityEnum.Normal:
+                        priorityText = "Нормальный";
+                        break;
+
+                    case Models.Enums.NotePriorityEnum.High:
+                        priorityText = "Высокий";
+                        break;
+                }
+
                 NoteItems.Add(new NoteItem
                 {
                     Index = NoteItems.Count,
                     Id = dbNote.Id,
                     Name = dbNote.Name,
-                    Timestamp = dbNote.Timestamp
+                    Timestamp = dbNote.Timestamp,
+                    PriorityText = priorityText
                 });
             }
 
