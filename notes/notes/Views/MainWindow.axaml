@@ -130,6 +130,7 @@
 								<ComboBox
 									Name = "ComboBox"
 									Grid.Column = "1"
+									SelectedIndex="{ Binding SelectedPriorityIndex }"
 									Items="{ Binding NotesPriorities }">
 
 									<ComboBox.ItemTemplate>

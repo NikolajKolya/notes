@@ -39,6 +39,28 @@ namespace notes.ViewModels
             }
         }
 
+        private int _selectedPriorityIndex;
+
+        public int SelectedPriorityIndex
+        {
+            get => _selectedPriorityIndex;
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedPriorityIndex, value);
+
+                // Здесь мы обрабатываем выбор нового элемента списка
+                if (_selectedPriorityIndex == -1)
+                {
+                    return;
+                }
+
+                _selectedPriority = _notesPriorities[_selectedPriorityIndex];
+            }
+        }
+
+        private NotePriority _selectedPriority;
+
         /// <summary>
         /// Add new note
         /// </summary>
@@ -96,6 +118,8 @@ namespace notes.ViewModels
             _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.Low, Description = "Низкая" });
             _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.Normal, Description = "Нормальная" });
             _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.High, Description = "Высокая" });
+
+            SelectedPriorityIndex = 1;
 
             AddNewNoteCommand = ReactiveCommand.Create(OnAddNewNoteCommand);
             DeleteNoteCommand = ReactiveCommand.Create(OnDeleteNewNoteCommand);
