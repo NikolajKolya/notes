@@ -107,7 +107,7 @@
 				</Grid>
 			</Border>
 
-						<!-- Note controls-->
+					<!-- Note controls-->
 					<StackPanel
 						Grid.Column="0"
 						Grid.ColumnSpan="1"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using notes.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,5 +33,10 @@ namespace notes.DAO.Models
         /// Creation time
         /// </summary>
         public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Note priority
+        /// </summary>
+        public NotePriorityEnum Priority { get; set; }
     }
 }
