@@ -27,6 +27,18 @@ namespace notes.ViewModels
 
         private IList<NoteItem> _noteItems = new List<NoteItem>();
 
+        private IList<NotePriority> _notesPriorities = new List<NotePriority>();
+
+        public IList<NotePriority> NotesPriorities
+        {
+            get => _notesPriorities;
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _notesPriorities, value);
+            }
+        }
+
         /// <summary>
         /// Add new note
         /// </summary>
@@ -80,10 +92,15 @@ namespace notes.ViewModels
         public MainWindowViewModel()
         {
             _notesService = Program.Di.GetService<INotesService>();
+
+            _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.Low, Description = "Низкая" });
+            _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.Normal, Description = "Нормальная" });
+            _notesPriorities.Add(new NotePriority() { PriorityLevel = Models.Enums.NotePriorityEnum.High, Description = "Высокая" });
+
             AddNewNoteCommand = ReactiveCommand.Create(OnAddNewNoteCommand);
             DeleteNoteCommand = ReactiveCommand.Create(OnDeleteNewNoteCommand);
             SaveNoteCommand = ReactiveCommand.Create(OnSaveNoteCommand);
-            //Enum.GetValues(typeof(Priority)).Cast<Priority>().ToList();
+
             ReloadNotesList();
         }
 

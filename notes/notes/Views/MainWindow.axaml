@@ -126,10 +126,20 @@
 										Content="Delete"
 										Command="{ Binding DeleteNoteCommand }"/>
 								</StackPanel>
+							
 								<ComboBox
 									Name = "ComboBox"
-									Grid.Column = "1">
+									Grid.Column = "1"
+									Items="{ Binding NotesPriorities }">
+
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<Label Content="{ Binding Description }" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									
 								</ComboBox>
+							
 								<StackPanel
 									Orientation="Horizontal"
 									HorizontalAlignment="Right"
