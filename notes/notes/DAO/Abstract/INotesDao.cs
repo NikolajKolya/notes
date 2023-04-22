@@ -29,5 +29,10 @@ namespace notes.DAO.Abstract
         /// Удалить заметку по её ID
         /// </summary>
         void DeleteNoteById(Guid id);
+
+        /// <summary>
+        /// Обновляем заметку. В заметке должен быть заполнен ID (по нему определяем какую заметку обновлять).
+        /// </summary>
+        void Update(Note newNote);
     }
 }

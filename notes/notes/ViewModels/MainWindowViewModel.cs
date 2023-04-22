@@ -6,9 +6,12 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Text;
+using notes.Views;
+using Note = notes.Models.Note;
 
 namespace notes.ViewModels
 {
@@ -33,6 +36,8 @@ namespace notes.ViewModels
         /// Delete selected note
         /// </summary>
         public ReactiveCommand<Unit, Unit> DeleteNoteCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> SaveNoteCommand { get; }
 
         public IList<NoteItem> NoteItems
         {
@@ -75,10 +80,10 @@ namespace notes.ViewModels
         public MainWindowViewModel()
         {
             _notesService = Program.Di.GetService<INotesService>();
-
             AddNewNoteCommand = ReactiveCommand.Create(OnAddNewNoteCommand);
             DeleteNoteCommand = ReactiveCommand.Create(OnDeleteNewNoteCommand);
-
+            SaveNoteCommand = ReactiveCommand.Create(OnSaveNoteCommand);
+            //Enum.GetValues(typeof(Priority)).Cast<Priority>().ToList();
             ReloadNotesList();
         }
 
@@ -103,6 +108,26 @@ namespace notes.ViewModels
             }
 
             _notesService.Delete(SelectedNote.Id);
+
+            ReloadNotesList();
+        }
+
+        private void OnSaveNoteCommand()
+        {
+            if (SelectedNote == null)
+            {
+                return;
+            }
+
+            var updatedNote = new Note()
+            {
+                Id = SelectedNote.Id,
+                Name = NoteTitle,
+                Content = NoteText,
+                Timestamp = DateTime.Now
+            };
+
+            _notesService.Update(updatedNote);
 
             ReloadNotesList();
         }

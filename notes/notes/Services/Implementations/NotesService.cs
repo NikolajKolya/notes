@@ -54,5 +54,11 @@ namespace notes.Services.Implementations
         {
             _notesDao.DeleteNoteById(id);
         }
+
+        public void Update(Note newNote)
+        {
+            var mappedNewNote = _notesMapper.Map(newNote);
+            _notesDao.Update(mappedNewNote);
+        }
     }
 }

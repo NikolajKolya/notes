@@ -44,5 +44,16 @@ namespace notes.DAO.Implementations
                 .Notes
                 .Single(n => n.Id == id);
         }
+
+        public void Update(Note newNote)
+        {
+            var existingNote = GetNoteById(newNote.Id);
+
+            existingNote.Name = newNote.Name;
+            existingNote.Content = newNote.Content;
+            existingNote.Timestamp = newNote.Timestamp;
+
+            _mainDbContext.SaveChanges();
+        }
     }
 }

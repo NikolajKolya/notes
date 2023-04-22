@@ -28,5 +28,10 @@ namespace notes.Services.Abstract
         /// Delete note by Id
         /// </summary>
         void Delete(Guid id);
+
+        /// <summary>
+        /// Обновить заметку
+        /// </summary>
+        void Update(Note newNote);
     }
 }

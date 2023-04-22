@@ -18,7 +18,7 @@
 
 		<Grid
 			ColumnDefinitions="*"
-			RowDefinitions="Auto, *">
+			RowDefinitions="Auto, *, Auto">
 
 			<!-- Here will be notes list -->
 			<Border
@@ -104,23 +104,44 @@
 						AcceptsReturn="True"
 						Text="{ Binding NoteText }" />
 
-					<!-- Note controls-->
-					<StackPanel
-						Grid.Column="0"
-						Grid.ColumnSpan="2"
-						Grid.Row="2"
-						Orientation="Horizontal">
-
-						<!-- Delete note -->
-						<Button
-                        Content="Delete"
-                        Command="{ Binding DeleteNoteCommand }"/>
-
-					</StackPanel>
-					
 				</Grid>
 			</Border>
 
+						<!-- Note controls-->
+					<StackPanel
+						Grid.Column="0"
+						Grid.ColumnSpan="1"
+						Grid.Row="2"
+						Background = "Green"
+						Orientation="Horizontal">
+						<Grid
+							RowDefinitions="*"
+							ColumnDefinitions="*, *, *">
+								<StackPanel
+									Orientation="Horizontal"
+									Background = "Blue"
+									Grid.Row = "0"
+									Grid.Column = "0">
+									<Button
+										Content="Delete"
+										Command="{ Binding DeleteNoteCommand }"/>
+								</StackPanel>
+								<ComboBox
+									Name = "ComboBox"
+									Grid.Column = "1">
+								</ComboBox>
+								<StackPanel
+									Orientation="Horizontal"
+									HorizontalAlignment="Right"
+									Background = "Red"
+									Grid.Row = "0"
+									Grid.Column = "2">
+									<Button
+										Content="Save"
+										Command="{ Binding SaveNoteCommand }"/>
+								</StackPanel>
+						</Grid>
+					</StackPanel>
 		</Grid>
 
 </Window>
